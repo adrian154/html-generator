@@ -44,6 +44,7 @@ console.log(html({lang: "en"},
 * All HTML-generating functions return the generated markup as a field named `html` in an object.
     * Markup can't be passed to other HTML-generating functions as strings directly because all strings are escaped by default.
     * You can use this to insert 'unsafe' values into your templates.
+    * This is done automatically by `raw()`, which accepts a string and outputs an HTML object.
 * HTML-generating functions understand these types of inputs:
     * `object`: If the object contains a field named `html`, the value is directly inserted into the tag without escaping.
     * `string`: The value is escaped first.
@@ -51,3 +52,4 @@ console.log(html({lang: "en"},
     * other:  If the value is null or undefined, nothing is outputted. Otherwise, the value is cast to a String.
 * To set attributes on a tag, pass an object as the first argument.
     * A value of null or undefined (but not other falsey values) can be used to create an attribute with no value, which is sometimes desirable e.g. for attributes like `readonly`.
+* You can create your own tag-generating functions with `createElement(tagname)` and `createVoid(tagname)`.

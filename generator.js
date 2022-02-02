@@ -8,4 +8,5 @@ const generatedCode = [
 ].flat().join("\n");
 
 const fs = require("fs");
-fs.writeFileSync("index.js", "const {regularElement, voidElement} = require('./core.js');\n" + generatedCode);
+const template = fs.readFileSync("template.js", {encoding: "utf-8"});
+fs.writeFileSync("index.js", template + generatedCode, {encoding: "utf-8"});
