@@ -31,7 +31,7 @@ const regularElement = (tag, content) => {
 const voidElement = (tag, attributes) => ({html: openingTag(tag, attributes)});
 
 // helper functions
-module.exports["tag"] = regularElement;
+module.exports["tag"] = (tag, ...content) => regularElement(tag, content);
 module.exports["raw"] = str => ({html: str});
 
 /* --- code below this point is statically generated --- */
