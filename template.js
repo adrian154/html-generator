@@ -31,8 +31,8 @@ const regularElement = (tag, content) => {
 const voidElement = (tag, attributes) => ({html: openingTag(tag, attributes)});
 
 // helper functions
-module.exports["createElement"] = (tagname) => (...content) => regularElement(tagname, content);
-module.exports["createVoid"] = (tagname) => (attributes) => voidElement(tagname, attributes);
+module.exports["regularElement"] = regularElement;
+module.exports["voidElement"] = voidElement;
 module.exports["raw"] = str => ({html: str});
 
 /* --- code below this point is statically generated --- */

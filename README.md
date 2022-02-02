@@ -52,4 +52,3 @@ console.log(html({lang: "en"},
     * other:  If the value is null or undefined, nothing is outputted. Otherwise, the value is cast to a String.
 * To set attributes on a tag, pass an object as the first argument.
     * A value of null or undefined (but not other falsey values) can be used to create an attribute with no value, which is sometimes desirable e.g. for attributes like `readonly`.
-* You can create your own tag-generating functions with `createElement(tagname)` and `createVoid(tagname)`.
