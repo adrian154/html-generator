@@ -7,6 +7,11 @@ const openingTag = (tag, attributes) => `<${tag}${attributes ? " " + Object.entr
 
 const convert = value => {
 
+    // ignore null, undefined
+    if(value == null) {
+        return "";
+    }
+
     // if the value was returned by another tag-generating method, return the raw HTML
     if(value?.html) {
         return value.html;   
