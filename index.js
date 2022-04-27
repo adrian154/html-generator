@@ -28,7 +28,7 @@ const convert = value => {
 
 // return html tags in an object so that they don't get escaped
 const regularElement = (tag, content) => {
-    const attributes = (typeof content[0] === "object" && !("html" in content[0])) && content.shift();
+    const attributes = (content[0] && typeof content[0] === "object" && !("html" in content[0])) && content.shift();
     const innerHTML = content.map(convert).join("");
     return {html: openingTag(tag, attributes) + innerHTML + `</${tag}>`};
 };
