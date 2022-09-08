@@ -1,9 +1,17 @@
 // sanitization functions
-const escapeHTML = (str) => String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const escapeAttribute = (str) => String(str).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+const escapeHTML = str => String(str).replace(/&/g, "&amp;")
+                                       .replace(/</g, "&lt;")
+                                       .replace(/>/g, "&gt;");
+
+const escapeAttribute = str => escapeHTML(str).replace(/"/g, "&quot;");
 
 // generate opening tag with attributes
-const openingTag = (tag, attributes) => `<${tag}${attributes ? " " + Object.entries(attributes).map(pair => pair[1] == null ? pair[0] : `${pair[0]}="${escapeAttribute(pair[1])}"`).join(" ") : ""}>`;
+const generateOpenTag = (tag, attributes) => {
+    if(attributes) {
+        return `<${tag} ${Object.entries(attributes).map(entry => entry[0] === null ? entry[0] : `${entry[0]}="${escapeAttribute(entry[1])}"`).join(" ")}>`
+    }
+    return `<${tag}>`
+};
 
 const convert = value => {
 
@@ -12,7 +20,7 @@ const convert = value => {
         return "";
     }
 
-    // if the value was returned by another tag-generating method, return the raw HTML
+    // handle raw markup
     if(value?.html) {
         return value.html;   
     }
@@ -26,17 +34,18 @@ const convert = value => {
 
 };
 
-// return html tags in an object so that they don't get escaped
-const regularElement = (tag, content) => {
-    const attributes = (content[0] && typeof content[0] === "object" && !("html" in content[0])) && content.shift();
+const generateElement = (tag, content) => {
+    let attributes = null;
+    if(content[0] && typeof content[0] === "object" && !("html" in content[0])) {
+        attributes = content.shift();
+    }
     const innerHTML = content.map(convert).join("");
-    return {html: openingTag(tag, attributes) + innerHTML + `</${tag}>`};
+    return {html: generateOpenTag(tag, attributes) + innerHTML + `</${tag}>`};
 };
 
-const voidElement = (tag, attributes) => ({html: openingTag(tag, attributes)});
+const generateVoidElement = (tag, attributes) => ({html: generateOpenTag(tag, attributes)});
 
-// helper functions
-module.exports["tag"] = (tag, ...content) => regularElement(tag, content);
+module.exports["tag"] = (tag, ...content) => generateRegularElement(tag, content);
 module.exports["raw"] = str => ({html: str});
 
 /* --- code below this point is statically generated --- */
