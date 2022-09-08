@@ -36,7 +36,7 @@ const convert = value => {
 
 const generateElement = (tag, content) => {
     let attributes = null;
-    if(content[0] && typeof content[0] === "object" && !("html" in content[0])) {
+    if(content[0] && typeof content[0] === "object" && !Array.isArray(content[0]) && !("html" in content[0])) {
         attributes = content.shift();
     }
     const innerHTML = content.map(convert).join("");
